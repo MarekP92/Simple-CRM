@@ -1,0 +1,1 @@
+Small CRM project in Django framework
