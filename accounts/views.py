@@ -5,6 +5,17 @@ from .models import *
 from .forms import OrderForm
 from .filters import OrderFilter
 
+
+def register_page(request):
+    context = {}
+    return render(request, 'accounts/register.html', context)
+
+
+def login_page(request):
+    context = {}
+    return render(request, 'accounts/login.html', context)
+
+
 def home(request):
     orders = Order.objects.all()
     customers = Customer.objects.all()        # taking objects
@@ -28,10 +39,10 @@ def customer(request, pk_test):
     customer = Customer.objects.get(id=pk_test)
     orders = customer.order_set.all()
     order_count = orders.count()
-    myFilter = OrderFilter(request.GET, queryset=orders)
-    orders = myFilter.qs
+    my_filter = OrderFilter(request.GET, queryset=orders)
+    orders = my_filter.qs
     context = {'customer': customer, 'orders': orders, 'order_count': order_count,
-               'myFilter': myFilter}
+               'my_filter': my_filter}
     return render(request, 'accounts/customer.html', context)
 
 
