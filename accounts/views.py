@@ -21,9 +21,9 @@ def register_page(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-
             group = Group.objects.get(name='customers')
             user.groups.add(group)
+
             Customer.objects.create(
                 user=user,
                 name=user.username,
@@ -79,8 +79,9 @@ def home(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['customer'])
+@allowed_users(allowed_roles=['customers'])
 def user_page(request):
+
 	orders = request.user.customer.order_set.all()
 
 	total_orders = orders.count()
@@ -89,9 +90,16 @@ def user_page(request):
 
 	print('ORDERS:', orders)
 
-	context = {'orders': orders, 'total_orders': total_orders,
-	'delivered': delivered,'pending': pending}
+	context = {'orders': orders, 'total_orders': total_orders, 'delivered': delivered, 'pending': pending}
+
 	return render(request, 'accounts/user.html', context)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['customers'])
+def account_settings(request):
+    context = {}
+    return render(request, 'accounts/account_settings.html', context)
 
 
 @login_required(login_url='login')
