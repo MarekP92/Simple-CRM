@@ -14,6 +14,7 @@ from django.contrib.auth.models import Group
 
 @unauthenticated_user
 def register_page(request):
+
     form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
@@ -21,9 +22,8 @@ def register_page(request):
             user = form.save()
             username = form.cleaned_data.get('username')
 
-            group = Group.objects.get(name='customer')
+            group = Group.objects.get(name='customers')
             user.groups.add(group)
-            # Added username after video because of error returning customer name if not added
             Customer.objects.create(
                 user=user,
                 name=user.username,
@@ -39,6 +39,7 @@ def register_page(request):
 
 @unauthenticated_user
 def login_page(request):
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
