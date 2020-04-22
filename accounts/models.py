@@ -3,11 +3,11 @@ from django.contrib.auth.models import User
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=100, null=True)
     email = models.CharField(max_length=100, null=True)
-    profile_pic = models.ImageField(null=True, blank=True)
+    profile_pic = models.ImageField( null=True, blank=True)                   # in the future add default pic default="and pic "
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
